@@ -9,6 +9,8 @@
 
 '''
 
+import time
+
 MENU = {
     "espresso": {
         "ingredients": {
@@ -37,8 +39,8 @@ MENU = {
 }
 
 resources = {
-    "water": 400,
-    "milk": 600,
+    "water": 1000,
+    "milk": 1000,
     "coffee": 100,
 }
 
@@ -81,6 +83,8 @@ class CoffeeMachine:
                 self.showMenu(trys)
             else:
                 print("Please Run the program again.")
+        if self.areEnoughIngredients():
+            self.doTransaction()
 
     def areEnoughIngredients(self):
         passed = True
@@ -129,32 +133,51 @@ class CoffeeMachine:
         self.makeCoffee()
 
     def makeCoffee(self):
+        print("\n   Please wait your coffee is getting ready !!!  \n")
+        time.sleep(2)
         for each_ingredients in MENU[self.coffee]["ingredients"]:
             resources[each_ingredients] -= MENU[self.coffee]["ingredients"][each_ingredients]
             print(resources[each_ingredients])
-        self.checkIngredients()
+        print("\n\n\n -- Here is your coffee -- \n\n\n")
+        is_enough = self.checkIngredients()
+        if is_enough :
+            print("Is there anything would you like to have ?")
+            is_anything = input("Please enter yes/no")
+            if is_anything == 'yes':
+                self.startupMenu()
+            else:
+                print("Thank you for the transaction !! Please come again.")
+                return
+        else:
+            print("Sorry, we are short on resources. We will open again soon.")
+            print("                 Thank you !!!               ")
+
     
     def checkIngredients(self):
+        isEnoughIngredients = True
         for each_ingredients in resources:
             if resources[each_ingredients] < MENU["espresso"]["ingredients"][each_ingredients]:
                 print("####################### Warning ########################")
                 print(f"   No enough {each_ingredients} to make any coffee ")
                 print("--------------------------------------------------------")
                 print("Resources present : ")
+                isEnoughIngredients = False
                 self.showResources()
+        return isEnoughIngredients
 
     def showResources(self):
         for each_ingredients in resources:
             print(each_ingredients, ':', resources[each_ingredients])
 
 
+def main():
+    coffee = CoffeeMachine()
+    coffee.startupMenu()
+    # print(coffee.areEnoughIngredients())
+    # if coffee.areEnoughIngredients():
+    #     coffee.doTransaction()
 
 
 
-
-
-coffee = CoffeeMachine()
-coffee.startupMenu()
-print(coffee.areEnoughIngredients())
-if coffee.areEnoughIngredients():
-    coffee.doTransaction()
+if __name__ == "__main__":
+    main()
