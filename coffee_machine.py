@@ -13,6 +13,7 @@ MENU = {
     "espresso": {
         "ingredients": {
             "water": 50,
+            "milk":100,
             "coffee": 18,
         },
         "cost": 25,
@@ -36,8 +37,8 @@ MENU = {
 }
 
 resources = {
-    "water": 300,
-    "milk": 200,
+    "water": 400,
+    "milk": 600,
     "coffee": 100,
 }
 
@@ -96,7 +97,7 @@ class CoffeeMachine:
             
         return passed
     
-    def doTransaction(self, trys):
+    def doTransaction(self, trys = 3):
         
         print('Cost of the coffee will be : ', MENU[self.coffee]["cost"])
         # print("Please enter your amount as 1, 5, 10, 100")
@@ -108,12 +109,14 @@ class CoffeeMachine:
         if total_amount < MENU[self.coffee]["cost"]:
             print("The given amount is not enough. \nRequired amount:", MENU[self.coffee]["cost"], "\nReceived amount:", total_amount)
             print("Please Enter the amount again")
-            if trys > 1:
-                trys -= 1
-                self.doTransaction(trys)
-            else:
-                print("Maximum tries are finished, please try again.")
-                return
+            return
+            # TODO: Wrtie a code with tries...
+            # if trys > 1:
+            #     trys -= 1
+            #     self.doTransaction(trys)
+            # else:
+            #     print("Maximum tries are finished, please try again.")
+            #     return
         elif total_amount > MENU[self.coffee]["cost"]:
             # TODO: Enter case if amount we have not enough to return exchange
             print("Here is your remaining amount : ", total_amount - MENU[self.coffee]["cost"])
@@ -125,6 +128,26 @@ class CoffeeMachine:
         
         self.makeCoffee()
 
+    def makeCoffee(self):
+        for each_ingredients in MENU[self.coffee]["ingredients"]:
+            resources[each_ingredients] -= MENU[self.coffee]["ingredients"][each_ingredients]
+            print(resources[each_ingredients])
+        self.checkIngredients()
+    
+    def checkIngredients(self):
+        for each_ingredients in resources:
+            if resources[each_ingredients] < MENU["espresso"]["ingredients"][each_ingredients]:
+                print("####################### Warning ########################")
+                print(f"   No enough {each_ingredients} to make any coffee ")
+                print("--------------------------------------------------------")
+                print("Resources present : ")
+                self.showResources()
+
+    def showResources(self):
+        for each_ingredients in resources:
+            print(each_ingredients, ':', resources[each_ingredients])
+
+
 
 
 
@@ -134,4 +157,4 @@ coffee = CoffeeMachine()
 coffee.startupMenu()
 print(coffee.areEnoughIngredients())
 if coffee.areEnoughIngredients():
-    coffee.doTransaction(trys=3)
+    coffee.doTransaction()
