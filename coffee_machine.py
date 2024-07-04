@@ -142,7 +142,7 @@ class CoffeeMachine:
         is_enough = self.checkIngredients()
         if is_enough :
             print("Is there anything would you like to have ?")
-            is_anything = input("Please enter yes/no")
+            is_anything = input("Please enter yes/no\n")
             if is_anything == 'yes':
                 self.startupMenu()
             else:
@@ -168,6 +168,21 @@ class CoffeeMachine:
     def showResources(self):
         for each_ingredients in resources:
             print(each_ingredients, ':', resources[each_ingredients])
+
+    def reFillResources(self):
+        ingredient = input("What you would like to refill ?\n")
+        if ingredient in resources.keys():
+            amount = int(input(f"Enter amount of {ingredient}\n"))
+            resources[ingredient] += amount
+        else :
+            print("No such ingredients.")
+        
+        loop = input("Do you need to refill anything else ?")
+        if loop == "yes":
+            self.reFillResources()
+        else :
+            print("Thanks for refilling \nCurrent ingredients :")
+            self.showResources()
 
 
 def main():
