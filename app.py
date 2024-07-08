@@ -32,7 +32,7 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         # The four arguments are : x, y point to start the window, heigth , width
 
         # Calling a function to setup a background
-        self.set_background(r"C:\Users\Jayesh B\Desktop\Sample\data\pict_1.jpg")
+        self.set_background(r"Data/pict_1.jpg")
 
         # Create a general layout 
 
