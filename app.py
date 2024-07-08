@@ -1,5 +1,4 @@
 # App will be present here ...
-
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -29,16 +28,17 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         # The four arguments are : x, y point to start the window, heigth , width
 
         # Calling a function to setup a background
-        self.set_background(r"Data/pict_1.jpg")
+        self.set_background(r"Data/coffee_7.jpeg")
 
                 # Create a general layout 
 
-        # Generally a vertical layout is made
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        # Creating a main layout
+        self.main_layout= QHBoxLayout()
+        
+        # Two layout left and right layout 
+        self.left_layout = QVBoxLayout()
+        self.right_layout = QVBoxLayout()
 
-        listlayout1 = QHBoxLayout()
-        listlayout2 = QHBoxLayout()
 
         # Create buttons for our UI
         self.button1 = QPushButton("Click me")
@@ -47,15 +47,19 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         self.button2 = QPushButton("Click me")
         self.button2.clicked.connect(self.on_click)
 
-        listlayout1.addWidget(self.button1)
-        listlayout1.addWidget(self.button2)
+        self.button3 = QPushButton("Click me")
+        self.button3.clicked.connect(self.on_click)
 
-        # Add this button to our layout
-        self.central_widget.setLayout(listlayout1)
-        self.central_widget.setLayout(listlayout2)
+        self.left_layout.addWidget(self.button1)
+        self.right_layout.addWidget(self.button2)
+        self.right_layout.addWidget(self.button3)
 
-        # # Set the layout 
-        # self.setLayout(self.centerlayout)
+        # Add the layouts to main layout
+        self.main_layout.addLayout(self.left_layout, 2)
+        self.main_layout.addLayout(self.right_layout, 1)
+
+        # Set the layout 
+        self.setLayout(self.main_layout)
         
 
     def on_click(self):
