@@ -24,9 +24,6 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         super().__init__()   # Calling __init__ function of parent class i.e. QWidget using super()
         ## super() is used to access parent class.
 
-        self.initUI()  # Callin a funtion to initialise UI. It will contain all out widgets.
-
-    def initUI(self):
         self.setWindowTitle("Coffee Machine") # Setting heading to our app
         self.setGeometry(100, 50, 800, 500) # Setting up Gometry of the window
         # The four arguments are : x, y point to start the window, heigth , width
@@ -34,10 +31,11 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         # Calling a function to setup a background
         self.set_background(r"C:\Users\Jayesh B\Desktop\Sample\data\pict_1.jpg")
 
-        # Create a general layout 
+                # Create a general layout 
 
         # Generally a vertical layout is made
-        layout = QVBoxLayout()
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
         listlayout1 = QHBoxLayout()
         listlayout2 = QHBoxLayout()
@@ -53,11 +51,12 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         listlayout1.addWidget(self.button2)
 
         # Add this button to our layout
-        layout.addLayout(listlayout1)
-        layout.addLayout(listlayout2)
+        self.central_widget.setLayout(listlayout1)
+        self.central_widget.setLayout(listlayout2)
 
-        # Set the layout 
-        self.setLayout(layout)
+        # # Set the layout 
+        # self.setLayout(self.centerlayout)
+        
 
     def on_click(self):
         print("The Button is Clicked !!!")
