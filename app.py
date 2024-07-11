@@ -14,6 +14,21 @@ TODOs:
 
 '''
 
+# Adding coustom widget to add background images to each layout if required...
+class BackgroundWidget(QWidget):
+    def __init__(self, layout, image_path):
+        super().__init__()
+        self.image_path = image_path
+        self.setLayout(layout)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap(self.image_path)
+        painter.drawPixmap(self.rect(), pixmap)
+
+def set_background(layout, image_path):
+    return BackgroundWidget(layout, image_path)
+
 
 
 class MainWindow(QWidget):  # Passinf QWidget class to main window
@@ -24,39 +39,26 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
         ## super() is used to access parent class.
 
         self.setWindowTitle("Coffee Machine") # Setting heading to our app
-        self.setGeometry(100, 50, 800, 500) # Setting up Gometry of the window
+        self.setGeometry(500, 50, 800, 800) # Setting up Gometry of the window
         # The four arguments are : x, y point to start the window, heigth , width
-
-        # Calling a function to setup a background
-        self.set_background(r"Data/coffee_7.jpeg")
-
-                # Create a general layout 
 
         # Creating a main layout
         self.main_layout= QHBoxLayout()
-        
         # Two layout left and right layout 
-        self.left_layout = QVBoxLayout()
-        self.right_layout = QVBoxLayout()
-
+        self.center_layout = QVBoxLayout()
 
         # Create buttons for our UI
         self.button1 = QPushButton("Click me")
         self.button1.clicked.connect(self.on_click)
 
-        self.button2 = QPushButton("Click me")
-        self.button2.clicked.connect(self.on_click)
+        self.center_layout.addWidget(self.button1)
 
-        self.button3 = QPushButton("Click me")
-        self.button3.clicked.connect(self.on_click)
+        # Set background for the left layout
+        self.center_layout_background = set_background(self.center_layout, r"C:\Users\Om\Desktop\Coffee-Machine\Data\coffee_2.jpg")
 
-        self.left_layout.addWidget(self.button1)
-        self.right_layout.addWidget(self.button2)
-        self.right_layout.addWidget(self.button3)
-
-        # Add the layouts to main layout
-        self.main_layout.addLayout(self.left_layout, 2)
-        self.main_layout.addLayout(self.right_layout, 1)
+        # Add the layouts snd widgets to main layout
+        self.main_layout.addWidget(self.center_layout_background, 2)
+        # self.main_layout.addLayout(self.right_layout, 1)
 
         # Set the layout 
         self.setLayout(self.main_layout)
