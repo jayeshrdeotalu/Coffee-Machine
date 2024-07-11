@@ -1,0 +1,1 @@
+self.stacked_widget.addWidget(self.sidebar)

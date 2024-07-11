@@ -32,13 +32,11 @@ class MainWindow(QWidget):  # Passinf QWidget class to main window
 
         # Creating a main layout
         self.main_layout= QHBoxLayout()
-        self.main_layout2= QHBoxLayout()
         self.center_layout = QVBoxLayout()
 
         self.hamburger_button = QPushButton("☰")
         self.hamburger_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
-        self.center_layout.addWidget(self.hamburger_button, 0)
         self.main_layout.addWidget(self.hamburger_button, alignment=Qt.AlignTop | Qt.AlignLeft)
 
         # Create buttons for our UI
