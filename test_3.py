@@ -10,7 +10,39 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Sliding Sidebar Example")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(500, 50, 800, 800)
+
+        self.image_path = "Data/coffee_2.jpg"
+        self.pixmap = QPixmap(self.image_path)
+        self.scaled_pixmap = None
+
+        # pixmap = QPixmap('')
+        # self.pixmap = QPixmap(image_path)
+
+        # # Set the initial background
+        # self.set_background()
+
+        # # Connect to resize event
+        # self.resizeEvent = self.on_resize
+
+        # # Scale the image to fit the window (adjust scaling factors as needed)
+        # scaled_pixmap = pixmap.scaledToWidth(self.width())
+
+        # # Create a brush using the scaled pixmap
+        # brush = QBrush(scaled_pixmap)
+
+        # # Set the brush as the window background
+        # palette = self.palette()
+        # palette.setBrush(QPalette.Window, brush)  # Use the QBrush object
+        # self.setPalette(palette)
+
+        # # Set the background color or image for the main window
+        # # self.setStyleSheet("QMainWindow { background-color: #87CEEB; }")  # Light blue background color
+        # self.setStyleSheet('''QMainWindow { background-image: url('/home/om/Desktop/Coffee-Machine/Data/coffee_2.jpg'); 
+        #                    background-position: center;
+        #         background-repeat: no-repeat;
+        #         background-size: contain;
+        #                     }''')
 
         # Main button in the middle
         central_widget = QWidget()
@@ -46,6 +78,24 @@ class MainWindow(QMainWindow):
 
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        if not self.scaled_pixmap or self.scaled_pixmap.size() != self.size():
+            self.scaled_pixmap = self.pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+
+        painter.drawPixmap(0, 0, self.scaled_pixmap)
+
+    def set_background(self):
+        # Scale the image to fit the window
+        scaled_pixmap = self.pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        brush = QBrush(scaled_pixmap)
+        palette = self.palette()
+        palette.setBrush(QPalette.Window, brush)
+        self.setPalette(palette)
+
+    def on_resize(self, event):
+        self.set_background()
 
     def toggle_sidebar(self):
         if self.sidebar.x() == 0:
