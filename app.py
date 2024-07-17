@@ -14,6 +14,7 @@ class BackgroundWidget(QWidget):
         painter = QPainter(self)
         pixmap = QPixmap(self.image_path)
         painter.drawPixmap(self.rect(), pixmap)
+        super().paintEvent(event)
 
 def set_background(layout, image_path):
     return BackgroundWidget(layout, image_path)
@@ -34,9 +35,9 @@ class MainWindow(QWidget):  # Passing QWidget class to main window
         self.hamburger_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
 
-        self.hamburger_button_2 = QPushButton("X")
-        self.hamburger_button_2.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.hamburger_button_2.clicked.connect(self.toggle_sidebar)
+        # self.hamburger_button_2 = QPushButton("X")
+        # self.hamburger_button_2.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        # self.hamburger_button_2.clicked.connect(self.toggle_sidebar)
 
         # Create buttons for our UI
         self.button1 = QPushButton("Click me")
@@ -49,6 +50,10 @@ class MainWindow(QWidget):  # Passing QWidget class to main window
         # Set background for the center layout
         self.center_layout_background = set_background(self.center_layout, r"C:\Users\Om\Desktop\Coffee-Machine\Data\coffee_2.jpg")
 
+        # Create a central widget to hold the center layout
+        self.center_widget = QWidget()
+        self.center_widget.setLayout(self.center_layout)
+
         # Create sidebar
         self.sidebar = QWidget()
         sidebar_width = int(self.width() * 0.4)
@@ -60,15 +65,15 @@ class MainWindow(QWidget):  # Passing QWidget class to main window
         self.sidebar_button2.clicked.connect(self.on_click)
         self.sidebar_button3 = QPushButton("Sidebar Button 3")
         self.sidebar_button3.clicked.connect(self.on_click)
-        self.sidebar_layout.addWidget(self.hamburger_button_2, alignment=Qt.AlignTop | Qt.AlignLeft)
+        # self.sidebar_layout.addWidget(self.hamburger_button_2, alignment=Qt.AlignTop | Qt.AlignLeft)
         self.sidebar_layout.addWidget(self.sidebar_button1)
         self.sidebar_layout.addWidget(self.sidebar_button2)
         self.sidebar_layout.addWidget(self.sidebar_button3)
         self.sidebar_layout.addStretch()
 
         # Add widgets to the splitter
-        self.splitter.addWidget(self.center_widget)
         self.splitter.addWidget(self.sidebar)
+        self.splitter.addWidget(self.center_widget)
         self.sidebar.hide()  # Hide the sidebar initially
 
         # # Creating stacked widget to manage main content and sidebar
@@ -87,9 +92,11 @@ class MainWindow(QWidget):  # Passing QWidget class to main window
 
     def toggle_sidebar(self):
         # Toggle between main content and sidebar
-        current_index = self.stacked_widget.currentIndex()
-        target_index = 1 - current_index  # Switch between 0 and 1
-        self.stacked_widget.setCurrentIndex(target_index)
+        if self.sidebar.isVisible():
+            self.sidebar.hide()
+        else:
+            self.sidebar.show()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
