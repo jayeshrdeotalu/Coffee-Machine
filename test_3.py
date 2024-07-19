@@ -5,9 +5,16 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+# Importing ingredients
+from ingredients import INGREDIENTS
+
 class Coffee():
+
     def __init__(self, ctype):
         self.coffeeType = ctype
+        self.ingredients = INGREDIENTS[(self.coffeeType).lower()]
+        print(self.ingredients)
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -93,8 +100,8 @@ class MainWindow(QMainWindow):
         msg.exec_()
 
     def checkIngredients(self, ctype):
-        self.coffeeType = ctype
         print("Type of coffee choosen :", ctype)
+        self.coffee = Coffee(ctype=ctype)
         return
 
     def buttonClicked(self):
