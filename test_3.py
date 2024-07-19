@@ -62,16 +62,6 @@ class MainWindow(QMainWindow):
 
         painter.drawPixmap(0, 0, self.scaled_pixmap)
 
-    def set_background(self):
-        # Scale the image to fit the window
-        scaled_pixmap = self.pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        brush = QBrush(scaled_pixmap)
-        palette = self.palette()
-        palette.setBrush(QPalette.Window, brush)
-        self.setPalette(palette)
-
-    def on_resize(self, event):
-        self.set_background()
 
     def toggle_sidebar(self):
         if self.sidebar.x() == 0:
