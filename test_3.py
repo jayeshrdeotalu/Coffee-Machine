@@ -22,7 +22,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
 
         main_layout.addStretch(2)
-        self.main_button = QPushButton("Main Button", self)
+        self.main_button = QPushButton("Make coffee", self)
+        self.main_button.setStyleSheet("background-color: darkgray;")
         # self.main_button.setFixedSize(100, 50)
         main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
         main_layout.addStretch(1)
@@ -31,18 +32,8 @@ class MainWindow(QMainWindow):
         self.hamburger_button = QPushButton("☰", self)
         self.hamburger_button.setFixedSize(50, 50)
         self.hamburger_button.move(0, 0)
+        self.hamburger_button.setStyleSheet("background-color: darkgray;")
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
-        self.hamburger_button.setStyleSheet("""
-            QPushButton {
-                background-image: url('/home/om/Desktop/Coffee-Machine/woodbackground.jpg');
-                # background-repeat: no-repeat;
-                # background-position: center;
-                # background-size: cover;
-                # color: white;  # Optional: Set text color to contrast with the background
-                # border: none;  # Optional: Remove border for a cleaner look
-                # font-size: 16px;  # Optional: Adjust the font size
-            }
-        """)
 
         # Sidebar
         self.sidebar = QWidget(self)
