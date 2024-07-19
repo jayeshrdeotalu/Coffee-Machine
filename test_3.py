@@ -76,6 +76,7 @@ class MainWindow(QMainWindow):
             self.scaled_pixmap = self.pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
 
         painter.drawPixmap(0, 0, self.scaled_pixmap)
+        return
 
 
     def toggle_sidebar(self):
@@ -89,6 +90,7 @@ class MainWindow(QMainWindow):
             self.sidebar_animation.setStartValue(QRect(-200, 0, 200, self.height()))
             self.sidebar_animation.setEndValue(QRect(0, 0, 200, self.height()))
             self.sidebar_animation.start()
+        return
     
     def selectCoffeeType(self):
 
@@ -98,8 +100,9 @@ class MainWindow(QMainWindow):
         for coffee in COFFEE_TYPES:
             button = msg.addButton(coffee, QMessageBox.ActionRole)
             button.clicked.connect(lambda checked, coffee=coffee: self.checkIngredients(coffee))
-            
+
         msg.exec_()
+        return
 
     def checkIngredients(self, ctype):
         print("Type of coffee choosen :", ctype)
