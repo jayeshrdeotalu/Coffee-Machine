@@ -5,6 +5,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+class Coffee():
+    def __init__(self, ctype):
+        self.coffeeType = ctype
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -21,9 +24,12 @@ class MainWindow(QMainWindow):
         main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
 
+        self.coffeeType = None
+
         main_layout.addStretch(2)
         self.main_button = QPushButton("Make coffee", self)
         self.main_button.setStyleSheet("background-color: darkgray;")
+        self.main_button.clicked.connect(self.selectCoffeeType)
         # self.main_button.setFixedSize(100, 50)
         main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
         main_layout.addStretch(1)
@@ -74,6 +80,27 @@ class MainWindow(QMainWindow):
             self.sidebar_animation.setStartValue(QRect(-200, 0, 200, self.height()))
             self.sidebar_animation.setEndValue(QRect(0, 0, 200, self.height()))
             self.sidebar_animation.start()
+    
+    def selectCoffeeType(self):
+        msg = QMessageBox()
+        msg.setText("Please select Coffee Type:")
+        espresso = msg.addButton('Espresso',msg.ActionRole)
+        latte = msg.addButton('Latte',msg.ActionRole)
+        cappuccino = msg.addButton('cappuccino', msg.ActionRole)
+        espresso.clicked.connect(lambda: self.checkIngredients("espresso"))
+        latte.clicked.connect(lambda: self.checkIngredients("latte"))
+        cappuccino.clicked.connect(lambda: self.checkIngredients("cappuccino"))
+        msg.exec_()
+
+    def checkIngredients(self, ctype):
+        self.coffeeType = ctype
+        print("Type of coffee choosen :", ctype)
+        return
+
+    def buttonClicked(self):
+        print("Button Clicked")
+        return
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
