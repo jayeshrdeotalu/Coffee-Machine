@@ -16,63 +16,48 @@ class MainWindow(QMainWindow):
         self.pixmap = QPixmap(self.image_path)
         self.scaled_pixmap = None
 
-        # pixmap = QPixmap('')
-        # self.pixmap = QPixmap(image_path)
-
-        # # Set the initial background
-        # self.set_background()
-
-        # # Connect to resize event
-        # self.resizeEvent = self.on_resize
-
-        # # Scale the image to fit the window (adjust scaling factors as needed)
-        # scaled_pixmap = pixmap.scaledToWidth(self.width())
-
-        # # Create a brush using the scaled pixmap
-        # brush = QBrush(scaled_pixmap)
-
-        # # Set the brush as the window background
-        # palette = self.palette()
-        # palette.setBrush(QPalette.Window, brush)  # Use the QBrush object
-        # self.setPalette(palette)
-
-        # # Set the background color or image for the main window
-        # # self.setStyleSheet("QMainWindow { background-color: #87CEEB; }")  # Light blue background color
-        # self.setStyleSheet('''QMainWindow { background-image: url('/home/om/Desktop/Coffee-Machine/Data/coffee_2.jpg'); 
-        #                    background-position: center;
-        #         background-repeat: no-repeat;
-        #         background-size: contain;
-        #                     }''')
-
         # Main button in the middle
         central_widget = QWidget()
         main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
 
+        main_layout.addStretch(2)
         self.main_button = QPushButton("Main Button", self)
         # self.main_button.setFixedSize(100, 50)
-        main_layout.addStretch()
         main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
-        main_layout.addStretch()
+        main_layout.addStretch(1)
 
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
         self.hamburger_button.setFixedSize(50, 50)
         self.hamburger_button.move(0, 0)
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
+        self.hamburger_button.setStyleSheet("""
+            QPushButton {
+                background-image: url('/home/om/Desktop/Coffee-Machine/woodbackground.jpg');
+                # background-repeat: no-repeat;
+                # background-position: center;
+                # background-size: cover;
+                # color: white;  # Optional: Set text color to contrast with the background
+                # border: none;  # Optional: Remove border for a cleaner look
+                # font-size: 16px;  # Optional: Adjust the font size
+            }
+        """)
 
         # Sidebar
         self.sidebar = QWidget(self)
         self.sidebar.setGeometry(-200, 0, 200, self.height())
         self.sidebar_layout = QVBoxLayout(self.sidebar)
-        self.sidebar.setStyleSheet("background-color: lightgray;")
+        self.sidebar.setStyleSheet("background-color: lightblue;")
 
-        self.sidebar_button = QPushButton("X", self.sidebar)
-        self.sidebar_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.sidebar_button = QPushButton("x", self.sidebar)
+        self.sidebar_button.setFixedSize(40, 40)
         self.sidebar_layout.addWidget(self.sidebar_button)
         self.sidebar_button.clicked.connect(self.toggle_sidebar)
+        self.sidebar_button.setStyleSheet("background-color: darkgray;")
 
         self.sidebar_button_1 = QPushButton("Sidebar Button", self.sidebar)
+        self.sidebar_button_1.setStyleSheet("background-color: darkgray;")
         self.sidebar_layout.addWidget(self.sidebar_button_1)
         self.sidebar_layout.addStretch()
 
