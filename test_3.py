@@ -28,13 +28,18 @@ class MainWindow(QMainWindow):
         self.pixmap = QPixmap(self.image_path)
         self.scaled_pixmap = None
 
+        # Defining variables using thoughoutly in the code
+        self.coffeeType = None
+        self.money = 0
+        self.resources = None
+
+        # Importing prebuild assets to machine
+        self.addPredefinedItemsToMachine()
+
         # Main button in the middle
         central_widget = QWidget()
         main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
-
-        self.coffeeType = None
-
         main_layout.addStretch(2)
         self.main_button = QPushButton("Make coffee", self)
         self.main_button.setStyleSheet("background-color: darkgray;")
@@ -90,6 +95,10 @@ class MainWindow(QMainWindow):
             self.sidebar_animation.setStartValue(QRect(-200, 0, 200, self.height()))
             self.sidebar_animation.setEndValue(QRect(0, 0, 200, self.height()))
             self.sidebar_animation.start()
+        return
+    
+    def addPredefinedItemsToMachine(self):
+        print("Inside addPredefinedItemsToMachine")
         return
     
     def selectCoffeeType(self):
