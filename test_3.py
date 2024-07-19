@@ -6,14 +6,16 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 # Importing ingredients
-from ingredients import INGREDIENTS
+from ingredients import INGREDIENTS, COFFEE_TYPES
 
 class Coffee():
 
     def __init__(self, ctype):
         self.coffeeType = ctype
-        self.ingredients = INGREDIENTS[(self.coffeeType).lower()]
+        self.ingredients = INGREDIENTS[(self.coffeeType).lower()]['ingredients']
+        self.cost = INGREDIENTS[(self.coffeeType).lower()]['cost']
         print(self.ingredients)
+        print(self.cost)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -89,14 +91,14 @@ class MainWindow(QMainWindow):
             self.sidebar_animation.start()
     
     def selectCoffeeType(self):
+
         msg = QMessageBox()
         msg.setText("Please select Coffee Type:")
-        espresso = msg.addButton('Espresso',msg.ActionRole)
-        latte = msg.addButton('Latte',msg.ActionRole)
-        cappuccino = msg.addButton('cappuccino', msg.ActionRole)
-        espresso.clicked.connect(lambda: self.checkIngredients("espresso"))
-        latte.clicked.connect(lambda: self.checkIngredients("latte"))
-        cappuccino.clicked.connect(lambda: self.checkIngredients("cappuccino"))
+
+        for coffee in COFFEE_TYPES:
+            button = msg.addButton(coffee, QMessageBox.ActionRole)
+            button.clicked.connect(lambda checked, coffee=coffee: self.checkIngredients(coffee))
+            
         msg.exec_()
 
     def checkIngredients(self, ctype):

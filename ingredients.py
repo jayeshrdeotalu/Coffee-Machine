@@ -1,3 +1,5 @@
+COFFEE_TYPES = ["Espresso", "Latte", "Cappuccino"]
+
 INGREDIENTS = {
     "espresso": {
         "ingredients": {
