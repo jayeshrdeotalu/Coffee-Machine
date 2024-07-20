@@ -110,14 +110,11 @@ class MainWindow(QMainWindow):
         return
     
     def selectCoffeeType(self):
-
         msg = QMessageBox()
         msg.setText("Please select Coffee Type:")
-
         for coffee in COFFEE_TYPES:
             button = msg.addButton(coffee, QMessageBox.ActionRole)
             button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
-
         msg.exec_()
         return
     
@@ -130,8 +127,9 @@ class MainWindow(QMainWindow):
     def checkIngredients(self):
         print("Inside Check Ingredients")
         is_avail = True
-        for ingredient in INGREDIENTS:
-            if int(ingredient) < int(self.Coffee.ingredients[ingredient]):
+        for ingredient in INGREDIENTS[self.Coffee.coffeeType.lower()]["ingredients"]:
+            print(ingredient)
+            if int(self.resources[ingredient]) < int(self.Coffee.ingredients[ingredient]):
                 print("Not enough Ingredients")
                 msg = QMessageBox()
                 msg.setText("No Ingredients Available")
@@ -144,7 +142,7 @@ class MainWindow(QMainWindow):
     
     def getAndProcessMoney(self):
         msg = QMessageBox()
-        msg.setText("The cost of coffee is: ", self.Coffee.cost)
+        msg.setText(f"The cost of coffee is: {self.Coffee.cost}")
         msg.exec_()
         return
 
