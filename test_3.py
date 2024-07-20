@@ -136,8 +136,8 @@ class MainWindow(QMainWindow):
                 msg.exec_()
                 is_avail = False
                 return
-            if is_avail:
-                self.getAndProcessMoney()
+        if is_avail:
+            self.getAndProcessMoney()
         return
     
     def getAndProcessMoney(self):

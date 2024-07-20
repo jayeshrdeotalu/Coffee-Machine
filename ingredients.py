@@ -7,7 +7,7 @@ INGREDIENTS = {
             "milk":100,
             "coffee": 18,
         },
-        "cost": 25,
+        "cost": 50,
     },
     "latte": {
         "ingredients": {
@@ -15,7 +15,7 @@ INGREDIENTS = {
             "milk": 150,
             "coffee": 24,
         },
-        "cost": 50,
+        "cost": 100,
     },
     "cappuccino": {
         "ingredients": {
@@ -23,6 +23,6 @@ INGREDIENTS = {
             "milk": 100,
             "coffee": 50,
         },
-        "cost": 50,
+        "cost": 160,
     }
 }
