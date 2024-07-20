@@ -1,9 +1,11 @@
-import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt, QPropertyAnimation, QRect
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+
+import sys
+import json
 
 # Importing ingredients
 from ingredients import INGREDIENTS, COFFEE_TYPES
@@ -29,7 +31,7 @@ class MainWindow(QMainWindow):
         self.scaled_pixmap = None
 
         # Defining variables using thoughoutly in the code
-        self.coffeeType = None
+        self.Coffee = None
         self.money = 0
         self.resources = None
 
@@ -99,6 +101,12 @@ class MainWindow(QMainWindow):
     
     def addPredefinedItemsToMachine(self):
         print("Inside addPredefinedItemsToMachine")
+        with open('predefined.json', 'r') as file:
+            data = json.load(file)
+        self.resources = data["ingredients"]
+        self.money = data["money"]
+        print("Resources : ", self.resources)
+        print("Money: ", self.money)
         return
     
     def selectCoffeeType(self):
@@ -108,14 +116,36 @@ class MainWindow(QMainWindow):
 
         for coffee in COFFEE_TYPES:
             button = msg.addButton(coffee, QMessageBox.ActionRole)
-            button.clicked.connect(lambda checked, coffee=coffee: self.checkIngredients(coffee))
+            button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
 
         msg.exec_()
         return
-
-    def checkIngredients(self, ctype):
-        print("Type of coffee choosen :", ctype)
-        self.coffee = Coffee(ctype=ctype)
+    
+    def setCoffeeType(self, coffee):
+        self.Coffee = Coffee(coffee)
+        print("Type of coffee choosen :", self.Coffee.coffeeType)
+        #Callinh checingredients to check if have minimum ingredients.
+        self.checkIngredients()
+    
+    def checkIngredients(self):
+        print("Inside Check Ingredients")
+        is_avail = True
+        for ingredient in INGREDIENTS:
+            if int(ingredient) < int(self.Coffee.ingredients[ingredient]):
+                print("Not enough Ingredients")
+                msg = QMessageBox()
+                msg.setText("No Ingredients Available")
+                msg.exec_()
+                is_avail = False
+                return
+            if is_avail:
+                self.getAndProcessMoney()
+        return
+    
+    def getAndProcessMoney(self):
+        msg = QMessageBox()
+        msg.setText("The cost of coffee is: ", self.Coffee.cost)
+        msg.exec_()
         return
 
     def buttonClicked(self):
