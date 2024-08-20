@@ -138,6 +138,7 @@ class MainWindow(QMainWindow):
         
         # Create a new widget with coffee selection options
         selection_widget = QWidget()
+        selection_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
         selection_layout = QVBoxLayout()
         
         # Message label
