@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Sliding Sidebar Example")
-        self.setGeometry(500, 50, 800, 800)
+        self.setGeometry(550, 150, 800, 800)
 
         self.image_path = "Data/coffee_2.jpg"
         self.pixmap = QPixmap(self.image_path)
@@ -42,13 +42,13 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
-        self.main_layout.addStretch(2)
+        # self.main_layout.addStretch(2)
         self.main_button = QPushButton("Make coffee", self)
         self.main_button.setStyleSheet("background-color: darkgray;")
         self.main_button.clicked.connect(self.selectCoffeeType)
         # self.main_button.setFixedSize(100, 50)
         self.main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
-        self.main_layout.addStretch(1)
+        # self.main_layout.addStretch(1)
 
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
@@ -133,8 +133,9 @@ class MainWindow(QMainWindow):
         
         selection_widget.setLayout(selection_layout)
         
+        self.main_layout.addStretch(3)
         self.main_layout.addWidget(selection_widget, alignment=Qt.AlignCenter)
-        self.main_layout.addStretch(1)
+        self.main_layout.addStretch(2)
 
     def prepareCoffee(self, coffee_type):
         print(f"Preparing {coffee_type}...")
