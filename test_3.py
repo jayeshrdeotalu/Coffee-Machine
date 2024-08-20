@@ -143,7 +143,8 @@ class MainWindow(QMainWindow):
         # Message label
         message_label = QLabel("Select coffee type")
         message_label.setAlignment(Qt.AlignCenter)
-        message_label.setStyleSheet("background-color: gray; color: white; padding: 10px;")
+        message_label.setStyleSheet("background-color: darkgray; color: white; padding: 20px 30px; border-radius: 10px;")
+
         selection_layout.addWidget(message_label)
         # List of coffee options
         coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
@@ -151,6 +152,24 @@ class MainWindow(QMainWindow):
         # Add coffee option buttons
         for coffee in coffee_types:
             button = QPushButton(coffee)
+
+            button.setStyleSheet("""
+            QPushButton {
+                    background-color: gray;
+                    color: white;
+                    border-radius: 20px; /* This makes the button rounded */
+                    padding: 10px 20px; /* Adjust padding  */
+                    font-size: 16px; /* Increase in font size */
+                    border: 2px solid #555; /* Added a border */
+                }
+                QPushButton:hover {
+                    background-color: #888; /* To hange background color on hover */
+                }
+                QPushButton:pressed {
+                    background-color: #666; /* To change background color when pressed */
+                }
+            """)
+
             button.clicked.connect(lambda checked, coffee=coffee: self.prepareCoffee(coffee))
             selection_layout.addWidget(button)
         
