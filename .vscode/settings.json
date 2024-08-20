@@ -1,0 +1,3 @@
+{
+    "python.pythonPath": "${Coffee-Machine}/venv/bin/python"  // Use env/Scripts/python.exe on Windows
+}
