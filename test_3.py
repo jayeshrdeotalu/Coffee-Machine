@@ -40,15 +40,15 @@ class MainWindow(QMainWindow):
 
         # Main button in the middle
         central_widget = QWidget()
-        main_layout = QVBoxLayout(central_widget)
+        self.main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
-        main_layout.addStretch(2)
+        self.main_layout.addStretch(2)
         self.main_button = QPushButton("Make coffee", self)
         self.main_button.setStyleSheet("background-color: darkgray;")
         self.main_button.clicked.connect(self.selectCoffeeType)
         # self.main_button.setFixedSize(100, 50)
-        main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
-        main_layout.addStretch(1)
+        self.main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
+        self.main_layout.addStretch(1)
 
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
@@ -108,15 +108,36 @@ class MainWindow(QMainWindow):
         print("Resources : ", self.resources)
         print("Money: ", self.money)
         return
-    
+
     def selectCoffeeType(self):
-        msg = QMessageBox()
-        msg.setText("Please select Coffee Type:")
-        for coffee in COFFEE_TYPES:
-            button = msg.addButton(coffee, QMessageBox.ActionRole)
-            button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
-        msg.exec_()
-        return
+
+        self.main_button.hide()
+        
+        # Create a new widget with coffee selection options
+        selection_widget = QWidget()
+        selection_layout = QVBoxLayout()
+        
+        # Message label
+        message_label = QLabel("Select coffee type")
+        message_label.setAlignment(Qt.AlignCenter)
+        message_label.setStyleSheet("background-color: gray; color: white; padding: 10px;")
+        selection_layout.addWidget(message_label)
+        # List of coffee options
+        coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
+        
+        # Add coffee option buttons
+        for coffee in coffee_types:
+            button = QPushButton(coffee)
+            button.clicked.connect(lambda checked, coffee=coffee: self.prepareCoffee(coffee))
+            selection_layout.addWidget(button)
+        
+        selection_widget.setLayout(selection_layout)
+        
+        self.main_layout.addWidget(selection_widget, alignment=Qt.AlignCenter)
+        self.main_layout.addStretch(1)
+
+    def prepareCoffee(self, coffee_type):
+        print(f"Preparing {coffee_type}...")
     
     def setCoffeeType(self, coffee):
         self.Coffee = Coffee(coffee)
