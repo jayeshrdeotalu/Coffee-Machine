@@ -37,18 +37,9 @@ class MainWindow(QMainWindow):
 
         # Importing prebuild assets to machine
         self.addPredefinedItemsToMachine()
-
-        # Main button in the middle
-        central_widget = QWidget()
-        self.main_layout = QVBoxLayout(central_widget)
-        self.setCentralWidget(central_widget)
-        # self.main_layout.addStretch(2)
-        self.main_button = QPushButton("Make coffee", self)
-        self.main_button.setStyleSheet("background-color: darkgray;")
-        self.main_button.clicked.connect(self.selectCoffeeType)
-        # self.main_button.setFixedSize(100, 50)
-        self.main_layout.addWidget(self.main_button, alignment=Qt.AlignCenter)
-        # self.main_layout.addStretch(1)
+        
+        # Add make Coffee button 
+        self.add_makeCoffeeButton()
 
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
@@ -76,6 +67,38 @@ class MainWindow(QMainWindow):
 
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
+
+    def add_makeCoffeeButton(self):
+        print("DEBUG: Inside get_makeCoffeeButton()")
+
+        # Main button in the middle
+        central_widget = QWidget()
+        self.main_layout = QVBoxLayout(central_widget)
+        self.setCentralWidget(central_widget)
+
+        self.makeCoffeeButton = QPushButton("Make coffee", self)
+
+        self.makeCoffeeButton.setStyleSheet("""
+            QPushButton {
+                background-color: gray;
+                color: white;
+                border-radius: 20px; /* This makes the button rounded */
+                padding: 10px 20px; /* Adjust padding  */
+                font-size: 16px; /* Increase in font size */
+                border: 2px solid #555; /* Added a border */
+            }
+            QPushButton:hover {
+                background-color: #888; /* To hange background color on hover */
+            }
+            QPushButton:pressed {
+                background-color: #666; /* To change background color when pressed */
+            }
+        """)
+
+        self.makeCoffeeButton.clicked.connect(self.selectCoffeeType)
+        self.main_layout.addWidget(self.makeCoffeeButton, alignment=Qt.AlignCenter)
+
+        return
     
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -111,7 +134,7 @@ class MainWindow(QMainWindow):
 
     def selectCoffeeType(self):
 
-        self.main_button.hide()
+        self.makeCoffeeButton.hide()
         
         # Create a new widget with coffee selection options
         selection_widget = QWidget()
