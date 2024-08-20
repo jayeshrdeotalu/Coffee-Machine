@@ -69,7 +69,7 @@ class MainWindow(QMainWindow):
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
 
     def add_makeCoffeeButton(self):
-        print("DEBUG: Inside get_makeCoffeeButton()")
+        print("DEBUG: Inside add_makeCoffeeButton()")
 
         # Main button in the middle
         central_widget = QWidget()
@@ -133,6 +133,7 @@ class MainWindow(QMainWindow):
         return
 
     def selectCoffeeType(self):
+        print("DEBUG: Inside selectCoffeeType()")
 
         self.makeCoffeeButton.hide()
         
@@ -148,7 +149,8 @@ class MainWindow(QMainWindow):
 
         selection_layout.addWidget(message_label)
         # List of coffee options
-        coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
+        # coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
+        coffee_types = ["Espresso", "Latte", "Cappuccino"]
         
         # Add coffee option buttons
         for coffee in coffee_types:
@@ -171,7 +173,7 @@ class MainWindow(QMainWindow):
                 }
             """)
 
-            button.clicked.connect(lambda checked, coffee=coffee: self.prepareCoffee(coffee))
+            button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
             selection_layout.addWidget(button)
         
         selection_widget.setLayout(selection_layout)
@@ -179,11 +181,9 @@ class MainWindow(QMainWindow):
         self.main_layout.addStretch(3)
         self.main_layout.addWidget(selection_widget, alignment=Qt.AlignCenter)
         self.main_layout.addStretch(2)
-
-    def prepareCoffee(self, coffee_type):
-        print(f"Preparing {coffee_type}...")
     
     def setCoffeeType(self, coffee):
+        print("DEBUG: Inside setCoffeeType()")
         self.Coffee = Coffee(coffee)
         print("Type of coffee choosen :", self.Coffee.coffeeType)
         #Callinh checingredients to check if have minimum ingredients.
