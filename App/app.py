@@ -8,7 +8,7 @@ import sys
 import json
 
 # Importing ingredients
-from ingredients import INGREDIENTS, COFFEE_TYPES
+from ..libs.ingredients import INGREDIENTS, COFFEE_TYPES
 
 class Coffee():
 
