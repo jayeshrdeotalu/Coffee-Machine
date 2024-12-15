@@ -40,12 +40,15 @@ class MainWindow(QMainWindow):
         self.main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
 
+        self.add_sidebar()
+
         # Importing prebuild assets to machine
         self.addPredefinedItemsToMachine()
         
         # Add make Coffee button 
         self.add_makeCoffeeButton()
 
+    def add_sidebar(self):
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
         self.hamburger_button.setFixedSize(50, 50)
