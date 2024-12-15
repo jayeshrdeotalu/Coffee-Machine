@@ -26,6 +26,11 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Sliding Sidebar Example")
         self.setGeometry(550, 150, 800, 800)
 
+        #initialising central widget and main layout 
+        central_widget = QWidget()
+        self.main_layout = QVBoxLayout(central_widget)
+        self.setCentralWidget(central_widget)
+
         self.background_image_path = "App/resources/coffee_2.jpg"
         self.pixmap = QPixmap(self.background_image_path)
         self.scaled_pixmap = None
@@ -46,11 +51,7 @@ class MainWindow(QMainWindow):
         # self.stacked.addWidget(self.create_coffee_type_page())
         # self.stacked.addWidget(self.create_payment_page())
         # self.stacked.addWidget(self.create_brewing_page())
-
-        #initialising central widget and main layout 
-        central_widget = QWidget()
-        self.main_layout = QVBoxLayout(central_widget)
-        self.setCentralWidget(central_widget)
+        
         self.main_layout.addWidget(self.stacked)
         self.stacked.setCurrentIndex(0)
 
@@ -59,31 +60,34 @@ class MainWindow(QMainWindow):
         print("DEBUG: Inside add_sidebar()")
 
         # Hamburger button at the leftmost corner
-        self.hamburger_button = QPushButton("☰", self)
+        self.hamburger_button = QPushButton("☰")
         self.hamburger_button.setFixedSize(50, 50)
         self.hamburger_button.move(0, 0)
         self.hamburger_button.setStyleSheet("background-color: darkgray;")
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
 
         # Sidebar
-        self.sidebar = QWidget(self)
+        self.sidebar = QWidget()
         self.sidebar.setGeometry(-200, 0, 200, self.height())
         self.sidebar_layout = QVBoxLayout(self.sidebar)
         self.sidebar.setStyleSheet("background-color: lightblue;")
 
-        self.sidebar_button = QPushButton("x", self.sidebar)
+        self.sidebar_button = QPushButton("x")
         self.sidebar_button.setFixedSize(40, 40)
         self.sidebar_layout.addWidget(self.sidebar_button)
         self.sidebar_button.clicked.connect(self.toggle_sidebar)
         self.sidebar_button.setStyleSheet("background-color: darkgray;")
 
-        self.sidebar_button_1 = QPushButton("Sidebar Button", self.sidebar)
+        self.sidebar_button_1 = QPushButton("Sidebar Button")
         self.sidebar_button_1.setStyleSheet("background-color: darkgray;")
         self.sidebar_layout.addWidget(self.sidebar_button_1)
         self.sidebar_layout.addStretch()
 
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
+
+        self.main_layout.addWidget(self.hamburger_button)
+        self.main_layout.addWidget(self.sidebar)
 
     def create_main_page(self):
         print("DEBUG: Inside add_makeCoffeeButton()")
@@ -125,6 +129,7 @@ class MainWindow(QMainWindow):
 
 
     def toggle_sidebar(self):
+        print("DEBUG: Inside toggle_sidebar()")
         if self.sidebar.x() == 0:
             self.sidebar_animation.setDuration(300)
             self.sidebar_animation.setStartValue(QRect(0, 0, 200, self.height()))
