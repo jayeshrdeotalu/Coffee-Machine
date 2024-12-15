@@ -76,11 +76,6 @@ class MainWindow(QMainWindow):
     def add_makeCoffeeButton(self):
         print("DEBUG: Inside add_makeCoffeeButton()")
 
-        # # Main button in the middle
-        # central_widget = QWidget()
-        # self.main_layout = QVBoxLayout(central_widget)
-        # self.setCentralWidget(central_widget)
-
         self.makeCoffeeButton = QPushButton("Make coffee", self)
 
         self.makeCoffeeButton.setStyleSheet("""
