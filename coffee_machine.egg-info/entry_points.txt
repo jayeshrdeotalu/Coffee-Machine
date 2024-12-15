@@ -1,0 +1,2 @@
+[console_scripts]
+coffee-machine = App.main:main
