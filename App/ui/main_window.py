@@ -60,34 +60,36 @@ class MainWindow(QMainWindow):
         print("DEBUG: Inside add_sidebar()")
 
         # Hamburger button at the leftmost corner
-        self.hamburger_button = QPushButton("☰")
+        self.hamburger_button = QPushButton("☰", self)
         self.hamburger_button.setFixedSize(50, 50)
         self.hamburger_button.move(0, 0)
         self.hamburger_button.setStyleSheet("background-color: darkgray;")
         self.hamburger_button.clicked.connect(self.toggle_sidebar)
 
         # Sidebar
-        self.sidebar = QWidget()
+        self.sidebar = QWidget(self)
         self.sidebar.setGeometry(-200, 0, 200, self.height())
         self.sidebar_layout = QVBoxLayout(self.sidebar)
         self.sidebar.setStyleSheet("background-color: lightblue;")
 
-        self.sidebar_button = QPushButton("x")
+        self.sidebar_button = QPushButton("x", self.sidebar)
         self.sidebar_button.setFixedSize(40, 40)
         self.sidebar_layout.addWidget(self.sidebar_button)
         self.sidebar_button.clicked.connect(self.toggle_sidebar)
         self.sidebar_button.setStyleSheet("background-color: darkgray;")
 
-        self.sidebar_button_1 = QPushButton("Sidebar Button")
+        self.sidebar_button_1 = QPushButton("Sidebar Button", self.sidebar)
         self.sidebar_button_1.setStyleSheet("background-color: darkgray;")
         self.sidebar_layout.addWidget(self.sidebar_button_1)
         self.sidebar_layout.addStretch()
 
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
+        self.sidebar_animation.setDuration(300)
+        self.sidebar_animation.setEasingCurve(QEasingCurve.Type.InOutCubic)
 
-        self.main_layout.addWidget(self.hamburger_button)
-        self.main_layout.addWidget(self.sidebar)
+        # Sidebar state
+        self.sidebar_open = False
 
     def create_main_page(self):
         print("DEBUG: Inside add_makeCoffeeButton()")
@@ -129,18 +131,19 @@ class MainWindow(QMainWindow):
 
 
     def toggle_sidebar(self):
-        print("DEBUG: Inside toggle_sidebar()")
-        if self.sidebar.x() == 0:
-            self.sidebar_animation.setDuration(300)
-            self.sidebar_animation.setStartValue(QRect(0, 0, 200, self.height()))
-            self.sidebar_animation.setEndValue(QRect(-200, 0, 200, self.height()))
-            self.sidebar_animation.start()
+        print("DEBUG: toggle_sidebar() called")
+
+        if self.sidebar_open:
+            # Animate sidebar to hide
+            self.sidebar_animation.setStartValue(self.sidebar.geometry())
+            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(-200, 0, -200, 0))
         else:
-            self.sidebar_animation.setDuration(300)
-            self.sidebar_animation.setStartValue(QRect(-200, 0, 200, self.height()))
-            self.sidebar_animation.setEndValue(QRect(0, 0, 200, self.height()))
-            self.sidebar_animation.start()
-        return
+            # Animate sidebar to show
+            self.sidebar_animation.setStartValue(self.sidebar.geometry())
+            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(200, 0, 200, 0))
+
+        self.sidebar_animation.start()
+        self.sidebar_open = not self.sidebar_open
     
     def addPredefinedItemsToMachine(self):
         print("Inside addPredefinedItemsToMachine")
