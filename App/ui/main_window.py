@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         self.sidebar_animation.setDuration(300)
         self.sidebar_animation.setEasingCurve(QEasingCurve.Type.InOutCubic)
 
-        # Sidebar state
+        # Sidebar state, initial state
         self.sidebar_open = False
 
     def create_main_page(self):
@@ -132,6 +132,9 @@ class MainWindow(QMainWindow):
 
     def toggle_sidebar(self):
         print("DEBUG: toggle_sidebar() called")
+
+        if self.sidebar_animation.state() == QPropertyAnimation.State.Running:
+            return  # Ignore clicks if animation is running ## Making Sure no anamolies occurs if clicked multiple times
 
         if self.sidebar_open:
             # Animate sidebar to hide
