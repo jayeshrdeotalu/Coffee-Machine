@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Sliding Sidebar Example")
         self.setGeometry(550, 150, 800, 800)
+        self.sidebar_width = 200  # To make it dynamic and can handle errors
 
         #initialising central widget and main layout 
         central_widget = QWidget()
@@ -68,7 +69,7 @@ class MainWindow(QMainWindow):
 
         # Sidebar
         self.sidebar = QWidget(self)
-        self.sidebar.setGeometry(-200, 0, 200, self.height())
+        self.sidebar.setGeometry(-self.sidebar_width, 0, self.sidebar_width, self.height())
         self.sidebar_layout = QVBoxLayout(self.sidebar)
         self.sidebar.setStyleSheet("background-color: lightblue;")
 
@@ -139,11 +140,11 @@ class MainWindow(QMainWindow):
         if self.sidebar_open:
             # Animate sidebar to hide
             self.sidebar_animation.setStartValue(self.sidebar.geometry())
-            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(-200, 0, -200, 0))
+            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(-self.sidebar_width, 0, -self.sidebar_width, 0))
         else:
             # Animate sidebar to show
             self.sidebar_animation.setStartValue(self.sidebar.geometry())
-            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(200, 0, 200, 0))
+            self.sidebar_animation.setEndValue(self.sidebar.geometry().adjusted(self.sidebar_width, 0, self.sidebar_width, 0))
 
         self.sidebar_animation.start()
         self.sidebar_open = not self.sidebar_open
