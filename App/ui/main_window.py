@@ -26,14 +26,19 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Sliding Sidebar Example")
         self.setGeometry(550, 150, 800, 800)
 
-        self.image_path = "Data/coffee_2.jpg"
-        self.pixmap = QPixmap(self.image_path)
+        self.background_image_path = "App/resources/coffee_2.jpg"
+        self.pixmap = QPixmap(self.background_image_path)
         self.scaled_pixmap = None
 
         # Defining variables using thoughoutly in the code
         self.Coffee = None
         self.money = 0
         self.resources = None
+
+        #initialising central widget and main layout 
+        central_widget = QWidget()
+        self.main_layout = QVBoxLayout(central_widget)
+        self.setCentralWidget(central_widget)
 
         # Importing prebuild assets to machine
         self.addPredefinedItemsToMachine()
@@ -71,10 +76,10 @@ class MainWindow(QMainWindow):
     def add_makeCoffeeButton(self):
         print("DEBUG: Inside add_makeCoffeeButton()")
 
-        # Main button in the middle
-        central_widget = QWidget()
-        self.main_layout = QVBoxLayout(central_widget)
-        self.setCentralWidget(central_widget)
+        # # Main button in the middle
+        # central_widget = QWidget()
+        # self.main_layout = QVBoxLayout(central_widget)
+        # self.setCentralWidget(central_widget)
 
         self.makeCoffeeButton = QPushButton("Make coffee", self)
 
@@ -96,14 +101,14 @@ class MainWindow(QMainWindow):
         """)
 
         self.makeCoffeeButton.clicked.connect(self.selectCoffeeType)
-        self.main_layout.addWidget(self.makeCoffeeButton, alignment=Qt.AlignCenter)
+        self.main_layout.addWidget(self.makeCoffeeButton, alignment=Qt.AlignmentFlag.AlignCenter)
 
         return
     
     def paintEvent(self, event):
         painter = QPainter(self)
         if not self.scaled_pixmap or self.scaled_pixmap.size() != self.size():
-            self.scaled_pixmap = self.pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.scaled_pixmap = self.pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
         painter.drawPixmap(0, 0, self.scaled_pixmap)
         return
@@ -144,7 +149,7 @@ class MainWindow(QMainWindow):
         
         # Message label
         message_label = QLabel("Select coffee type")
-        message_label.setAlignment(Qt.AlignCenter)
+        message_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         message_label.setStyleSheet("background-color: darkgray; color: white; padding: 20px 30px; border-radius: 10px;")
 
         selection_layout.addWidget(message_label)
@@ -179,7 +184,7 @@ class MainWindow(QMainWindow):
         selection_widget.setLayout(selection_layout)
         
         self.main_layout.addStretch(3)
-        self.main_layout.addWidget(selection_widget, alignment=Qt.AlignCenter)
+        self.main_layout.addWidget(selection_widget, alignment=Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addStretch(2)
     
     def setCoffeeType(self, coffee):
@@ -208,7 +213,7 @@ class MainWindow(QMainWindow):
     def getAndProcessMoney(self):
         msg = QMessageBox()
         msg.setText(f"The cost of coffee is: {self.Coffee.cost}")
-        msg.exec_()
+        msg.exec()
         return
 
     def buttonClicked(self):
