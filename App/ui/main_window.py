@@ -35,20 +35,29 @@ class MainWindow(QMainWindow):
         self.money = 0
         self.resources = None
 
+        # Importing prebuild assets to machine
+        self.addPredefinedItemsToMachine()
+        # Add sidebar to main window
+        self.add_sidebar()
+
+        # Create Stack Widget for paging...
+        self.stacked = QStackedWidget()
+        self.stacked.addWidget(self.create_main_page())
+        # self.stacked.addWidget(self.create_coffee_type_page())
+        # self.stacked.addWidget(self.create_payment_page())
+        # self.stacked.addWidget(self.create_brewing_page())
+
         #initialising central widget and main layout 
         central_widget = QWidget()
         self.main_layout = QVBoxLayout(central_widget)
         self.setCentralWidget(central_widget)
+        self.main_layout.addWidget(self.stacked)
+        self.stacked.setCurrentIndex(0)
 
-        self.add_sidebar()
-
-        # Importing prebuild assets to machine
-        self.addPredefinedItemsToMachine()
-        
-        # Add make Coffee button 
-        self.add_makeCoffeeButton()
 
     def add_sidebar(self):
+        print("DEBUG: Inside add_sidebar()")
+
         # Hamburger button at the leftmost corner
         self.hamburger_button = QPushButton("☰", self)
         self.hamburger_button.setFixedSize(50, 50)
@@ -76,11 +85,14 @@ class MainWindow(QMainWindow):
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
 
-    def add_makeCoffeeButton(self):
+    def create_main_page(self):
         print("DEBUG: Inside add_makeCoffeeButton()")
 
-        self.makeCoffeeButton = QPushButton("Make coffee", self)
+        main_page_widget = QWidget()
+        main_page_layout = QVBoxLayout(main_page_widget)
 
+        self.makeCoffeeButton = QPushButton("Make coffee")
+        self.makeCoffeeButton.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.makeCoffeeButton.setStyleSheet("""
             QPushButton {
                 background-color: gray;
@@ -99,9 +111,9 @@ class MainWindow(QMainWindow):
         """)
 
         self.makeCoffeeButton.clicked.connect(self.selectCoffeeType)
-        self.main_layout.addWidget(self.makeCoffeeButton, alignment=Qt.AlignmentFlag.AlignCenter)
+        main_page_layout.addWidget(self.makeCoffeeButton, alignment= Qt.AlignmentFlag.AlignCenter)
 
-        return
+        return main_page_widget
     
     def paintEvent(self, event):
         painter = QPainter(self)
