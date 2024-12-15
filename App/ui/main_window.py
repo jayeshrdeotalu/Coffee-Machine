@@ -1,14 +1,14 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QHBoxLayout
-from PyQt5.QtCore import Qt, QPropertyAnimation, QRect
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QHBoxLayout
+from PyQt6.QtCore import Qt, QPropertyAnimation, QRect
+from PyQt6.QtWidgets import *
+from PyQt6.QtGui import *
+from PyQt6.QtCore import *
 
 import sys
 import json
 
 # Importing ingredients
-from ..libs.ingredients import INGREDIENTS, COFFEE_TYPES
+from App.libs.ingredients import INGREDIENTS, COFFEE_TYPES
 
 class Coffee():
 
@@ -124,7 +124,7 @@ class MainWindow(QMainWindow):
     
     def addPredefinedItemsToMachine(self):
         print("Inside addPredefinedItemsToMachine")
-        with open('predefined.json', 'r') as file:
+        with open('App/libs/predefined.json', 'r') as file:
             data = json.load(file)
         self.resources = data["ingredients"]
         self.money = data["money"]
