@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         # self.stacked.addWidget(self.create_payment_page())
         # self.stacked.addWidget(self.create_brewing_page())
         
-        self.main_layout.addWidget(self.stacked)
+        self.main_layout.addWidget(self.stacked, alignment=Qt.AlignmentFlag.AlignCenter)
         self.stacked.setCurrentIndex(self.current_page_index)
 
 
@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
         # Create a new widget with coffee selection options
         page_widget = QWidget()
         page_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
+        page_widget.adjustSize()
         page_layout = QVBoxLayout(page_widget)
 
         # self.makeCoffeeButton.hide()
@@ -173,8 +174,10 @@ class MainWindow(QMainWindow):
         message_label = QLabel("Select coffee type")
         message_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         message_label.setStyleSheet("background-color: darkgray; color: white; padding: 20px 30px; border-radius: 10px;")
-
+        # message_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         page_layout.addWidget(message_label)
+
+        #TODO : Make it Dynamic 
         # List of coffee options
         # coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
         coffee_types = ["Espresso", "Latte", "Cappuccino"]
@@ -201,6 +204,7 @@ class MainWindow(QMainWindow):
             """)
 
             button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
+            # button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             page_layout.addWidget(button)
         
         # selection_widget.setLayout(selection_layout)
