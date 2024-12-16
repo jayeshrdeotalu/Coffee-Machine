@@ -123,10 +123,17 @@ class MainWindow(QMainWindow):
         return main_page_widget
     
     def paintEvent(self, event):
+        # painter to draw the background image
         painter = QPainter(self)
+        
+        # match image to- widget size, Ignoring the aspect ration...
         if not self.scaled_pixmap or self.scaled_pixmap.size() != self.size():
-            self.scaled_pixmap = self.pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-
+            self.scaled_pixmap = self.pixmap.scaled(self.size(), 
+                                                    Qt.AspectRatioMode.IgnoreAspectRatio, 
+                                                    Qt.TransformationMode.SmoothTransformation)
+        
+        # Draw the resized image
+        print("DEBUG: Redrawing Image...")
         painter.drawPixmap(0, 0, self.scaled_pixmap)
         return
 
@@ -244,5 +251,12 @@ class MainWindow(QMainWindow):
     
     def resizeEvent(self, event):
         print("DEBUG: Inside resize event...")
+        
+        # Initailize the parent class event
         super().resizeEvent(event)
+        
+        # Update size of sidebar
         self.sidebar.setGeometry(self.sidebar.x(), 0, self.sidebar_width, self.height())
+        
+        # To trigger the resize event
+        self.update()
