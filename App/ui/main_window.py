@@ -80,9 +80,9 @@ class MainWindow(QMainWindow):
         self.sidebar_button.setStyleSheet("background-color: darkgray;")
 
         self.sidebar_button_1 = QPushButton("Sidebar Button", self.sidebar)
-        self.sidebar_button_1.setStyleSheet("background-color: darkgray;")
-        self.sidebar_layout.addWidget(self.sidebar_button_1)
-        self.sidebar_layout.addStretch()
+        # self.sidebar_button_1.setStyleSheet("background-color: darkgray;")
+        self.sidebar_layout.addWidget(self.sidebar_button_1, alignment= Qt.AlignmentFlag.AlignTop)
+        # self.sidebar_layout.addStretch()
 
         # Sidebar animation
         self.sidebar_animation = QPropertyAnimation(self.sidebar, b"geometry")
@@ -260,9 +260,8 @@ class MainWindow(QMainWindow):
 
         # Initailize the parent class event
         super().resizeEvent(event)
-        
+
         # Update size of sidebar
         self.sidebar.setGeometry(self.sidebar.x(), 0, self.sidebar_width, self.height())
-        
         # To trigger the resize event
         self.update()
