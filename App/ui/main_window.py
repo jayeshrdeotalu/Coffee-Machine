@@ -121,21 +121,6 @@ class MainWindow(QMainWindow):
         main_page_layout.addWidget(self.makeCoffeeButton, alignment= Qt.AlignmentFlag.AlignCenter)
 
         return main_page_widget
-    
-    def paintEvent(self, event):
-        # painter to draw the background image
-        painter = QPainter(self)
-        
-        # match image to- widget size, Ignoring the aspect ration...
-        if not self.scaled_pixmap or self.scaled_pixmap.size() != self.size():
-            self.scaled_pixmap = self.pixmap.scaled(self.size(), 
-                                                    Qt.AspectRatioMode.IgnoreAspectRatio, 
-                                                    Qt.TransformationMode.SmoothTransformation)
-        
-        # Draw the resized image
-        print("DEBUG: Redrawing Image...")
-        painter.drawPixmap(0, 0, self.scaled_pixmap)
-        return
 
 
     def toggle_sidebar(self):
@@ -156,6 +141,7 @@ class MainWindow(QMainWindow):
         self.sidebar_animation.start()
         self.sidebar_open = not self.sidebar_open
     
+
     def addPredefinedItemsToMachine(self):
         print("Inside addPredefinedItemsToMachine")
         with open('App/libs/predefined.json', 'r') as file:
@@ -165,6 +151,7 @@ class MainWindow(QMainWindow):
         print("Resources : ", self.resources)
         print("Money: ", self.money)
         return
+
 
     def selectCoffeeType(self):
         print("DEBUG: Inside selectCoffeeType()")
@@ -215,14 +202,16 @@ class MainWindow(QMainWindow):
         self.main_layout.addStretch(3)
         self.main_layout.addWidget(selection_widget, alignment=Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addStretch(2)
-    
+
+
     def setCoffeeType(self, coffee):
         print("DEBUG: Inside setCoffeeType()")
         self.Coffee = Coffee(coffee)
         print("Type of coffee choosen :", self.Coffee.coffeeType)
         #Callinh checingredients to check if have minimum ingredients.
         self.checkIngredients()
-    
+
+
     def checkIngredients(self):
         print("Inside Check Ingredients")
         is_avail = True
@@ -238,20 +227,37 @@ class MainWindow(QMainWindow):
         if is_avail:
             self.getAndProcessMoney()
         return
-    
+
+
     def getAndProcessMoney(self):
         msg = QMessageBox()
         msg.setText(f"The cost of coffee is: {self.Coffee.cost}")
         msg.exec()
         return
 
+
     def buttonClicked(self):
         print("Button Clicked")
         return
-    
-    def resizeEvent(self, event):
-        print("DEBUG: Inside resize event...")
+
+
+    def paintEvent(self, event):
+        # painter to draw the background image
+        painter = QPainter(self)
         
+        # match image to- widget size, Ignoring the aspect ration...
+        if not self.scaled_pixmap or self.scaled_pixmap.size() != self.size():
+            self.scaled_pixmap = self.pixmap.scaled(self.size(), 
+                                                    Qt.AspectRatioMode.IgnoreAspectRatio, 
+                                                    Qt.TransformationMode.SmoothTransformation)
+        
+        # Draw the resized image
+        painter.drawPixmap(0, 0, self.scaled_pixmap)
+        return
+
+
+    def resizeEvent(self, event):       
+
         # Initailize the parent class event
         super().resizeEvent(event)
         
