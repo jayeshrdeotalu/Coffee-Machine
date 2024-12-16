@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Sliding Sidebar Example")
         self.setGeometry(550, 150, 800, 800)
         self.sidebar_width = 200  # To make it dynamic and can handle errors
+        self.current_page_index = 0
 
         #initialising central widget and main layout 
         central_widget = QWidget()
@@ -49,12 +50,12 @@ class MainWindow(QMainWindow):
         # Create Stack Widget for paging...
         self.stacked = QStackedWidget()
         self.stacked.addWidget(self.create_main_page())
-        # self.stacked.addWidget(self.create_coffee_type_page())
+        self.stacked.addWidget(self.create_coffee_type_page())
         # self.stacked.addWidget(self.create_payment_page())
         # self.stacked.addWidget(self.create_brewing_page())
         
         self.main_layout.addWidget(self.stacked)
-        self.stacked.setCurrentIndex(0)
+        self.stacked.setCurrentIndex(self.current_page_index)
 
 
     def add_sidebar(self):
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
             }
         """)
 
-        self.makeCoffeeButton.clicked.connect(self.selectCoffeeType)
+        self.makeCoffeeButton.clicked.connect(lambda : self.stacked.setCurrentIndex(self.current_page_index + 1))
         main_page_layout.addWidget(self.makeCoffeeButton, alignment= Qt.AlignmentFlag.AlignCenter)
 
         return main_page_widget
@@ -153,22 +154,27 @@ class MainWindow(QMainWindow):
         return
 
 
-    def selectCoffeeType(self):
-        print("DEBUG: Inside selectCoffeeType()")
+    def create_coffee_type_page(self):
+        print("DEBUG: Inside create_coffee_type_page()")
 
-        self.makeCoffeeButton.hide()
+        # Create a new widget with coffee selection options
+        page_widget = QWidget()
+        page_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
+        page_layout = QVBoxLayout(page_widget)
+
+        # self.makeCoffeeButton.hide()
         
         # Create a new widget with coffee selection options
-        selection_widget = QWidget()
-        selection_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
-        selection_layout = QVBoxLayout()
+        # selection_widget = QWidget()
+        # selection_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
+        # selection_layout = QVBoxLayout()
         
         # Message label
         message_label = QLabel("Select coffee type")
         message_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         message_label.setStyleSheet("background-color: darkgray; color: white; padding: 20px 30px; border-radius: 10px;")
 
-        selection_layout.addWidget(message_label)
+        page_layout.addWidget(message_label)
         # List of coffee options
         # coffee_types = ["Espresso", "Latte", "Cappuccino", "Americano"]
         coffee_types = ["Espresso", "Latte", "Cappuccino"]
@@ -195,13 +201,15 @@ class MainWindow(QMainWindow):
             """)
 
             button.clicked.connect(lambda checked, coffee=coffee: self.setCoffeeType(coffee))
-            selection_layout.addWidget(button)
+            page_layout.addWidget(button)
         
-        selection_widget.setLayout(selection_layout)
+        # selection_widget.setLayout(selection_layout)
         
-        self.main_layout.addStretch(3)
-        self.main_layout.addWidget(selection_widget, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.main_layout.addStretch(2)
+        # self.main_layout.addStretch(3)
+        # self.main_layout.addWidget(selection_widget, alignment=Qt.AlignmentFlag.AlignCenter)
+        # self.main_layout.addStretch(2)
+
+        return page_widget
 
 
     def setCoffeeType(self, coffee):
