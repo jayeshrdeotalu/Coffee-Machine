@@ -241,3 +241,8 @@ class MainWindow(QMainWindow):
     def buttonClicked(self):
         print("Button Clicked")
         return
+    
+    def resizeEvent(self, event):
+        print("DEBUG: Inside resize event...")
+        super().resizeEvent(event)
+        self.sidebar.setGeometry(self.sidebar.x(), 0, self.sidebar_width, self.height())
