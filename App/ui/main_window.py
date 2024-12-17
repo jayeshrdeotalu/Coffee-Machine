@@ -51,6 +51,7 @@ class MainWindow(QMainWindow):
         self.stacked = QStackedWidget()
         self.stacked.addWidget(self.create_main_page())
         self.stacked.addWidget(self.create_coffee_type_page())
+        self.stacked.addWidget(self.create_customize_coffee_page())
         # self.stacked.addWidget(self.create_payment_page())
         # self.stacked.addWidget(self.create_brewing_page())
         
@@ -160,7 +161,7 @@ class MainWindow(QMainWindow):
         # Create a new widget with coffee selection options
         page_widget = QWidget()
         page_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
-        page_widget.adjustSize()
+        page_widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         page_layout = QVBoxLayout(page_widget)
 
         # self.makeCoffeeButton.hide()
@@ -214,6 +215,30 @@ class MainWindow(QMainWindow):
         # self.main_layout.addStretch(2)
 
         return page_widget
+    
+    def create_customize_coffee_page(self):
+
+        page_widget = QWidget()
+        # page_widget.setStyleSheet("background-color: #f0f0f0; border-radius: 15px; padding: 10px;")
+        page_layout = QGridLayout(page_widget)
+
+         # Check if self.Coffee is set
+        coffee_type = self.Coffee.coffeeType if self.Coffee else "Unknown Coffee"
+        ingredients = self.Coffee.ingredients if self.Coffee else {"coffee": 10}
+
+        coffee_label = QLabel(f"{coffee_type} - Customize Your Coffee")
+        coffee_label.setStyleSheet("font-weight: bold;")
+        page_layout.addWidget(coffee_label)
+
+        # Coffee Option
+        coff_label = QLabel("Coffee (grams)")
+        page_layout.addWidget(coff_label, 1, 0)
+        self.coffee_slider = QSlider(Qt.Orientation.Horizontal)
+        self.coffee_slider.setRange(0, 50)
+        self.coffee_slider.setValue(ingredients['coffee'])  # Default value
+        page_layout.addWidget(self.coffee_slider, 1, 1)
+
+        return page_widget
 
 
     def setCoffeeType(self, coffee):
@@ -222,6 +247,8 @@ class MainWindow(QMainWindow):
         print("Type of coffee choosen :", self.Coffee.coffeeType)
         #Callinh checingredients to check if have minimum ingredients.
         self.checkIngredients()
+
+        self.stacked.setCurrentIndex(2)
 
 
     def checkIngredients(self):
